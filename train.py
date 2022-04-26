@@ -26,7 +26,6 @@ def print_auto_logged_info(r):
 
 # Initialize our model
 if __name__ == "__main__":
-    assert "MLFLOW_TRACKING_URI" in os.environ
     parser = argparse.ArgumentParser(description=".")
     parser.add_argument(
         "--model", metavar="N", type=str, help="either mlp or cnn", default="mlp"
@@ -34,6 +33,8 @@ if __name__ == "__main__":
     parser.add_argument("--lr", type=float, default=0.0001)
     parser.add_argument("--batch_size", type=int, default=256)
     parser.add_argument("--epochs", type=int, default=10)
+    parser.add_argument("--mlflow", type=str, default="http://0.0.0.0:5000")
+    os.environ["MLFLOW_TRACKING_URI"] = parser.parse_args().mlflow
     model_name = parser.parse_args().model
     batch_size = parser.parse_args().batch_size
     epochs = parser.parse_args().epochs
