@@ -35,6 +35,7 @@ if __name__ == "__main__":
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--mlflow", type=str, default="http://0.0.0.0:5000")
     os.environ["MLFLOW_TRACKING_URI"] = parser.parse_args().mlflow
+    print("MLFLOW TRACKING URI : ", os.environ["MLFLOW_TRACKING_URI"])
     model_name = parser.parse_args().model
     batch_size = parser.parse_args().batch_size
     epochs = parser.parse_args().epochs
