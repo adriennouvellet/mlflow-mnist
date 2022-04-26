@@ -17,7 +17,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--filename", metavar="N", type=str, help="an integer for the accumulator"
     )
-    endpoint = "http://localhost:5001/invocations"
+    endpoint = "http://0.0.0.0:5001/invocations"
     headers = {"Content-Type": "application/json"}
     img = cv2.imread(parser.parse_args().filename)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) / 255.0

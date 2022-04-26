@@ -31,6 +31,13 @@ python train.py --model cnn --lr 0.001 --epochs 10 --batch_size 64
 python train.py --model cnn --lr 0.0001 --epochs 10 --batch_size 128
 ```
 
+or with git
+
+```bash
+mlflow run git@github.com:adriennouvellet/mlflow-mnist.git -P lr=0.001 -P batch_size=128 -P epochs=2 --no-conda --experiment-name MNIST
+mlflow run git@github.com:adriennouvellet/mlflow-mnist.git -P lr=0.01 -P batch_size=128 -P epochs=2 --no-conda --experiment-name MNIST -P model=cnn 
+```
+
 ## See results
 
 ```bash

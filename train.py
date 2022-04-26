@@ -69,7 +69,7 @@ if __name__ == "__main__":
 
     # Initialize a trainer
     trainer = pl.Trainer(max_epochs=epochs)
-    
+
     # set experiment name
     mlflow.set_experiment("MNIST")
     # Train the model
@@ -98,9 +98,10 @@ if __name__ == "__main__":
             mnist_model,
             "model",
             registered_model_name=model_name,
-            conda_env=mlflow.pytorch.get_default_conda_env(),
             signature=signature,
             input_example=input_example,
+            code_paths=["models.py"],
+            requirements_file="requirements.txt",
         )
         # scripted_pytorch_model = torch.jit.script(mnist_model)
         # mlflow.pytorch.log_model(scripted_pytorch_model, "scripted_model")
