@@ -4,4 +4,4 @@ entry_points:
       lr: {type: float, default: 0.001}
       batch_size: {type: int, default: 128}
       epochs: {type: int, default: 10}
-    command: "python train.py --lr {lr} --batch_size {batch_size} --epochs {epochs}"
+    command: "MLFLOW_TRACKING_URI=http://0.0.0.0:5000 python train.py --lr {lr} --batch_size {batch_size} --epochs {epochs}"
