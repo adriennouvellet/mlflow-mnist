@@ -10,21 +10,10 @@ from torchvision.datasets import MNIST
 
 import mlflow.pytorch
 from mlflow.models import infer_signature
-from mlflow.tracking import MlflowClient
 from models import MNISTModel, MNISTModelConv
 
+from .utils import print_auto_logged_info
 
-def print_auto_logged_info(r):
-    tags = {k: v for k, v in r.data.tags.items() if not k.startswith("mlflow.")}
-    artifacts = [f.path for f in MlflowClient().list_artifacts(r.info.run_id, "model")]
-    print("run_id: {}".format(r.info.run_id))
-    print("artifacts: {}".format(artifacts))
-    print("params: {}".format(r.data.params))
-    print("metrics: {}".format(r.data.metrics))
-    print("tags: {}".format(tags))
-
-
-# Initialize our model
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=".")
     parser.add_argument(
@@ -34,12 +23,16 @@ if __name__ == "__main__":
     parser.add_argument("--batch_size", type=int, default=256)
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--mlflow", type=str, default="http://0.0.0.0:5000")
-    os.environ["MLFLOW_TRACKING_URI"] = parser.parse_args().mlflow
-    print("MLFLOW TRACKING URI : ", os.environ["MLFLOW_TRACKING_URI"])
-    model_name = parser.parse_args().model
-    batch_size = parser.parse_args().batch_size
-    epochs = parser.parse_args().epochs
-    lr = parser.parse_args().lr
+
+    # extract arguments
+    args = parser.parse_args()
+    os.environ["MLFLOW_TRACKING_URI"] = args.mlflow
+    model_name, batch_size, epochs, lr = (
+        args.model,
+        args.batch_size,
+        args.epochs,
+        args.lr,
+    )
 
     hyper_params = {
         "batch_size": batch_size,
@@ -86,14 +79,12 @@ if __name__ == "__main__":
         plt.savefig("test.jpg")
         mlflow.log_artifact("test.jpg")
 
-        for a, b in test_loader:
-            break
         signature = infer_signature(
             model_input=imgs_test.detach().numpy(),
             model_output=mnist_model(imgs_test).detach().numpy(),
         )
+
         input_example = imgs_test.detach().numpy()
-        print(signature)
         mlflow.pytorch.log_model(
             mnist_model,
             "model",
