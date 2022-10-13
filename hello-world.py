@@ -1,9 +1,8 @@
 import matplotlib.pyplot as plt
+import mlflow
 import numpy as np
 from sklearn import datasets
 from sklearn.linear_model import LinearRegression
-
-import mlflow
 
 # enable autologging
 mlflow.set_experiment("sklearn-experiment")
@@ -12,7 +11,6 @@ mlflow.sklearn.autolog()
 # preparing data only use one feature
 X, y = datasets.load_diabetes(return_X_y=True)
 X = X[:, np.newaxis, 2]
-
 
 # train a model
 model = LinearRegression()
