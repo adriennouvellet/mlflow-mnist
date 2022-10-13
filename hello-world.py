@@ -7,7 +7,6 @@ from sklearn.linear_model import LinearRegression
 # enable autologging
 mlflow.set_experiment("sklearn-experiment")
 mlflow.sklearn.autolog()
-
 # preparing data only use one feature
 X, y = datasets.load_diabetes(return_X_y=True)
 X = X[:, np.newaxis, 2]
